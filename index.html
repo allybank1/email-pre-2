@@ -275,7 +275,7 @@ function buildCountriesGrid(){
     const chip=document.createElement('label');
     chip.className='country-chip active';
     chip.dataset.key=k;
-    chip.innerHTML=`<input type="checkbox" checked><div class="ck"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cflag">\( {c.flag}</span><span class="cname"> \){c.name}</span>`;
+    chip.innerHTML=`<input type="checkbox" checked><div class="ck"><svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><span class="cflag">${c.flag}</span><span class="cname">${c.name}</span>`;
     chip.querySelector('input').addEventListener('change',e=>{
       chip.classList.toggle('active',e.target.checked);
       if(e.target.checked) activeCountries.add(k); else activeCountries.delete(k);
@@ -306,7 +306,7 @@ function updateDistRow(){
   const row=document.getElementById('distRow');
   if(!activeCountries.size){row.innerHTML='';return;}
   const perC=Math.floor(100/activeCountries.size);
-  row.innerHTML=[...activeCountries].map(k=>`<span class="dist-pill">${COUNTRIES[k].flag} ${COUNTRIES[k].name} \~ ${perC}%</span>`).join('');
+  row.innerHTML=[...activeCountries].map(k=>`<span class="dist-pill">${COUNTRIES[k].flag} ${COUNTRIES[k].name} ~ ${perC}%</span>`).join('');
 }
 
 function selectAllCountries(){document.querySelectorAll('.country-chip').forEach(chip=>{chip.classList.add('active');chip.querySelector('input').checked=true;activeCountries.add(chip.dataset.key);});updateStats();updateDistRow();}
@@ -380,7 +380,7 @@ function analyzeSeed(){
   sepContainer.innerHTML='';
   sepItems.forEach(([label,val])=>{
     const pct=sepTotal>0?Math.round((val/sepTotal)*100):0;
-    sepContainer.innerHTML+=`<div class="an-metric"><span class="an-key">\( {label}</span><div class="an-bar-wrap"><div class="an-bar" style="width: \){sepTotal>0?Math.round((val/sepMax)*100):0}%"></div></div><span class="an-pct">${pct}%</span></div>`;
+    sepContainer.innerHTML+=`<div class="an-metric"><span class="an-key">${label}</span><div class="an-bar-wrap"><div class="an-bar" style="width:${sepTotal>0?Math.round((val/sepMax)*100):0}%"></div></div><span class="an-pct">${pct}%</span></div>`;
   });
 
   const allYearEntries=Object.entries(yearCounts).filter(([,v])=>v>1).sort((a,b)=>b[1]-a[1]);
@@ -399,7 +399,7 @@ function analyzeSeed(){
     yearContainer.innerHTML='';
     allYearEntries.forEach(([year,val])=>{
       const pct=Math.round((val/yearTotal)*100);
-      yearContainer.innerHTML+=`<div class="an-metric"><span class="an-key">\( {year}</span><div class="an-bar-wrap"><div class="an-bar" style="width: \){Math.round((val/yearMax)*100)}%"></div></div><span class="an-pct">${pct}%</span></div>`;
+      yearContainer.innerHTML+=`<div class="an-metric"><span class="an-key">${year}</span><div class="an-bar-wrap"><div class="an-bar" style="width:${Math.round((val/yearMax)*100)}%"></div></div><span class="an-pct">${pct}%</span></div>`;
     });
     const decades={};
     allYearEntries.forEach(([year,val])=>{
